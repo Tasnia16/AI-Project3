@@ -1,8 +1,6 @@
 const vscode = require('vscode');
 const WebSocket = require('ws');
-
-const { executeCommand } = require('./utils/registerCommands');
-
+const { executeCommand } = require('./utils/executeCommands');
 
 function activate(context) {
 	const ws = new WebSocket('ws://localhost:8080');
@@ -11,5 +9,4 @@ function activate(context) {
 		executeCommand(vscode, command);
 	});
 }
-
 module.exports = { activate };

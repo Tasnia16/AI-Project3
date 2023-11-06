@@ -1,4 +1,3 @@
-const { exit } = require('process');
 const WebSocket = require('ws');
 const wss = new WebSocket.Server({ port: 8080 });
 const readline = require('readline').createInterface({ input: process.stdin, output: process.stdout, });
