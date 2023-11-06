@@ -13,14 +13,6 @@
     "*"
   ],
   "main": "./extension.js",
-  "contributes": {
-    "commands": [
-      {
-        "command": "startInputPromptLoop",
-        "title": "Start Input Prompt Loop"
-      }
-    ]
-  },
   "scripts": {
     "lint": "eslint .",
     "pretest": "npm run lint",
