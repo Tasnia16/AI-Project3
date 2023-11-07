@@ -1,9 +1,6 @@
 const convertGrammaticalLineToCode = require('./converter');
 
-
-
 function executeCommand(vscode, grammaticalLine) {
-
     const editor = vscode.window.activeTextEditor;
     if (editor) {
         const selection = editor.selection;
@@ -18,6 +15,5 @@ function executeCommand(vscode, grammaticalLine) {
         }
     }
 }
-
 module.exports = { executeCommand }
 

@@ -1,7 +1,7 @@
 {
-  "name": "b",
-  "displayName": "b",
-  "description": "",
+  "name": "voice-to-code",
+  "displayName": "V2C",
+  "description": "takes voice as input and converts it to code",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.84.0"
