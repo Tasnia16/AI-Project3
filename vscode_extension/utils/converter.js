@@ -1,7 +1,8 @@
 //--------------------GOTO LINE X------------------------
 
 function needToMove(grammaticalLine) {
-    const lineNumberRegex = /\bgo\s*to(?:\s*line)?\s*\d+\b/;
+    //const lineNumberRegex = /\bgo\s*to(?:\s*line)?\s*\d+\b/;
+    const lineNumberRegex = /\bgo\s*to(?:\s*line)?\s*(\d+)\b/;
     const match = grammaticalLine.match(lineNumberRegex);
     if (match) return match[1]
     else return null
@@ -373,6 +374,34 @@ function conditional(grammaticalLine) {
 }
 
 
+
+//--------------------Switch Case----------------------------------------
+function handleSwitchCase(grammaticalLine) {
+    const switchCaseRegex = /^switch\s+(\S+)$/i;
+    const caseRegex = /^case\s+(\S+)(:)?$/i;
+    const defaultRegex = /^default(:)?$/i;
+    const endBracketRegex = /^end\s+bracket$/i;
+    const switchMatch = grammaticalLine.match(switchCaseRegex);
+    const caseMatch = grammaticalLine.match(caseRegex);
+    const defaultMatch = grammaticalLine.match(defaultRegex);
+    const endBracketMatch = grammaticalLine.match(endBracketRegex);
+    
+    if (switchMatch) {
+        const switchExpression = switchMatch[1];
+        return `switch (${switchExpression}) {\n`;
+    } else if (caseMatch) {
+        const caseValue = caseMatch[1];
+        return `  case ${caseValue}:\n    // code block\n    break;\n`;
+    } else if (defaultMatch) {
+        return `  default:\n    // code block\n    break;\n`;
+    } else if (endBracketMatch) {
+        return `}\n`;}
+    else {
+        return false;
+    }
+}
+
+
 module.exports = function convertGrammaticalLineToCode(vscode, grammaticalLine) {
     let executedInternalCommand = false
 
@@ -383,6 +412,7 @@ module.exports = function convertGrammaticalLineToCode(vscode, grammaticalLine) 
     if (space(grammaticalLine)) return space(grammaticalLine)
     if (newline(grammaticalLine)) return newline(grammaticalLine)
     if (conditional(grammaticalLine)) return conditional(grammaticalLine)
+    if (handleSwitchCase(grammaticalLine)) return handleSwitchCase(grammaticalLine)
     if (handleLoop(grammaticalLine)) return handleLoop(grammaticalLine)
     if (handleFunction(grammaticalLine)) return handleFunction(grammaticalLine)
     if (handleVariableDeclaration(grammaticalLine)) return handleVariableDeclaration(grammaticalLine)
