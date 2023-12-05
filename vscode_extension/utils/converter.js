@@ -111,6 +111,25 @@ function handleFunction(grammaticalLine) {
     }
 }
 
+function handleVariableDeclaration(grammaticalLine) {
+    const createVariableRegex = /^create\s+(let|const|var)\s+(\w+)$/i;
+    const generalVar= /^create\s+variable\s+(\w+)$/i;
+
+    const match = grammaticalLine.match(createVariableRegex);
+    const match2 = grammaticalLine.match(generalVar);
+    
+    if (match) {
+        const declarationKeyword = match[1];
+        const variableName = match[2];
+        return `${declarationKeyword} ${variableName} = /* Your initial value here */;`;
+    } else if (match2) {
+        const variableName2 = match2[1];
+        return `var ${variableName2} = /* Your initial value here */;`;
+    } else {
+        return false;
+    } 
+}
+
 
 
 
@@ -123,6 +142,7 @@ module.exports = function convertGrammaticalLineToCode(vscode, grammaticalLine) 
     if (handlePrint(grammaticalLine)) return handlePrint(grammaticalLine)
     if(handleLoop(grammaticalLine)) return handleLoop(grammaticalLine)
     if(handleFunction(grammaticalLine)) return handleFunction(grammaticalLine)
+    if(handleVariableDeclaration(grammaticalLine)) return handleVariableDeclaration(grammaticalLine)
 
     if (executedInternalCommand) { return executedInternalCommand }
     return null;
