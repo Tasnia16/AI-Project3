@@ -67,6 +67,27 @@ function handlePrint(grammaticalLine) {
     else return false
 }
 
+// function handleLoop(grammaticalLine) {
+
+//     const loopRegex = /^(loop|create|output|console\.log|console|)\s+(.+)$/i;
+//     const loopMatch = grammaticalLine.match(loopRegex);
+//     if (loopMatch) {
+//         return `for(let i=0; i< n ; i++){}\n`;
+//     }
+//     else return false
+// }
+
+function handleLoop(grammaticalLine) {
+    const loopRegex = /^(create\s+for\s+loop|loop|for|for\s+loop|create\s+loop|print\s+loop)$/i;
+
+    const loopMatch = grammaticalLine.match(loopRegex);
+
+    if (loopMatch) {
+        return `for (let i = 0; i < n; i++) {\n  // Your loop body here\n}\n`;
+    } else {
+        return false;
+    }
+}
 
 
 
@@ -78,6 +99,7 @@ module.exports = function convertGrammaticalLineToCode(vscode, grammaticalLine) 
     }
 
     if (handlePrint(grammaticalLine)) return handlePrint(grammaticalLine)
+    if(handleLoop(grammaticalLine)) return handleLoop(grammaticalLine)
 
     if (executedInternalCommand) { return executedInternalCommand }
     return null;
