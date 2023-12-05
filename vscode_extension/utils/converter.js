@@ -78,15 +78,21 @@ function handlePrint(grammaticalLine) {
 // }
 
 function handleLoop(grammaticalLine) {
-    const loopRegex = /^(create\s+for\s+loop|loop|for|for\s+loop|create\s+loop|print\s+loop)$/i;
+    const forLoopRegex = /^(create\s+for\s+loop|loop|for|for\s+loop|create\s+loop|print\s+loop)$/i;
+    const whileLoopRegex = /^(create\s+while\s+loop|while\s+loop|while)$/i;
 
-    const loopMatch = grammaticalLine.match(loopRegex);
+    const forLoopMatch = grammaticalLine.match(forLoopRegex);
+    const whileLoopMatch = grammaticalLine.match(whileLoopRegex);
 
-    if (loopMatch) {
+
+    if (forLoopMatch) {
         return `for (let i = 0; i < n; i++) {\n  // Your loop body here\n}\n`;
+    } else if (whileLoopMatch) {
+        return `while (condition) {\n  // Your loop body here\n}\n`;
     } else {
         return false;
     }
+
 }
 
 

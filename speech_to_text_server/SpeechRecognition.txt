@@ -1,1 +1,1 @@
-create for loop
+while loop
