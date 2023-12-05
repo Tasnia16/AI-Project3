@@ -1,1 +1,1 @@
-create variable intelligence
+let three equal 3

@@ -1,3 +1,5 @@
+const { log } = require("console");
+
 function needToMove(grammaticalLine) {
     const lineNumberRegex = /line (\d+)/i;
     const match = grammaticalLine.match(lineNumberRegex);
@@ -112,20 +114,56 @@ function handleFunction(grammaticalLine) {
 }
 
 function handleVariableDeclaration(grammaticalLine) {
-    const createVariableRegex = /^create\s+(let|const|var)\s+(\w+)$/i;
-    const generalVar= /^create\s+variable\s+(\w+)$/i;
 
-    const match = grammaticalLine.match(createVariableRegex);
-    const match2 = grammaticalLine.match(generalVar);
+    //without initial value
+    const letRegex=/^create\s+(late)\s+(\w+)$/i;  
+    const constRegex=/^create\s+(constant)\s+(\w+)$/i;  
+    const varRegex= /^create\s+(variable)\s+(\w+)$/i;  
+    const letMatch=grammaticalLine.match(letRegex);
+    const constMatch=grammaticalLine.match(constRegex);
+    const varMatch = grammaticalLine.match(varRegex); 
+
+    //with initial value
+    const letRegex1=/^late\s+(\w+)\s*=\s*(\S+)$/i;
+    const constRegex1=/^constant\s+(\w+)\s+equal\s+(\S+)$/i;
+    const varRegex1= /^variable\s+(\w+)\s+equal\s+(\S+)$/i;
+    const letMatch1=grammaticalLine.match(letRegex1);
+    const constMatch1=grammaticalLine.match(constRegex1);
+    const varMatch1 = grammaticalLine.match(varRegex1); 
+
+
     
-    if (match) {
-        const declarationKeyword = match[1];
-        const variableName = match[2];
-        return `${declarationKeyword} ${variableName} = /* Your initial value here */;`;
-    } else if (match2) {
-        const variableName2 = match2[1];
-        return `var ${variableName2} = /* Your initial value here */;`;
-    } else {
+    if(letMatch){
+        const variableName1 = letMatch[2];
+        return `let ${variableName1} = /* Your initial value here */;\n`;
+    }
+    else if (constMatch) {
+        const variableName2 = constMatch[2];
+        return `const ${variableName2} = /* Your initial value here */;\n`;
+    } 
+    else if (varMatch) {
+        const variableName3 = varMatch[2];
+        return `var ${variableName3} = /* Your initial value here */;\n`;
+    }
+    else if (letMatch1) {
+        const variableName4 = letMatch1[1];
+        console.log(variableName4);
+        const initialValue1 = letMatch1[2];
+        console.log(initialValue1);
+        return `let ${variableName4} = ${initialValue1};`;
+    }
+    else if (constMatch1) {
+        const variableName5 = constMatch1[1];
+        const initialValue2 = constMatch1[2];
+        console.log(initialValue2);
+        return `const ${variableName5} = ${initialValue2};`;
+    }
+    else if (varMatch1) {
+        const variableName6 = varMatch1[1];
+        const initialValue3 = varMatch1[2];
+        return `var ${variableName6} = ${initialValue3};`;
+    }
+     else {
         return false;
     } 
 }
