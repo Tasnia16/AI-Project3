@@ -80,19 +80,35 @@ function handlePrint(grammaticalLine) {
 function handleLoop(grammaticalLine) {
     const forLoopRegex = /^(create\s+for\s+loop|loop|for|for\s+loop|create\s+loop|print\s+loop)$/i;
     const whileLoopRegex = /^(create\s+while\s+loop|while\s+loop|while)$/i;
+    const doWhileLoopRegex = /(^create\s+do\s+while\s+loop|do\s+while|do\s+while\s+loop)$/i;
 
     const forLoopMatch = grammaticalLine.match(forLoopRegex);
     const whileLoopMatch = grammaticalLine.match(whileLoopRegex);
-
+    const doWhileLoopMatch = grammaticalLine.match(doWhileLoopRegex);
 
     if (forLoopMatch) {
         return `for (let i = 0; i < n; i++) {\n  // Your loop body here\n}\n`;
     } else if (whileLoopMatch) {
         return `while (condition) {\n  // Your loop body here\n}\n`;
+    } else if (doWhileLoopMatch) {
+        return `do {\n  // Your loop body here\n} while (condition);\n`;
     } else {
         return false;
     }
 
+}
+
+function handleFunction(grammaticalLine) {
+    const createFunctionRegex = /^create\s+function\s+(\w+)$/i;
+
+    const match = grammaticalLine.match(createFunctionRegex);
+
+    if (match) {
+        const functionName = match[1];
+        return `function ${functionName}() {\n  // Your function body here\n}\n`;
+    } else {
+        return false;
+    }
 }
 
 
@@ -106,6 +122,7 @@ module.exports = function convertGrammaticalLineToCode(vscode, grammaticalLine) 
 
     if (handlePrint(grammaticalLine)) return handlePrint(grammaticalLine)
     if(handleLoop(grammaticalLine)) return handleLoop(grammaticalLine)
+    if(handleFunction(grammaticalLine)) return handleFunction(grammaticalLine)
 
     if (executedInternalCommand) { return executedInternalCommand }
     return null;
