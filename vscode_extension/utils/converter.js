@@ -102,13 +102,26 @@ function handleLoop(grammaticalLine) {
 
 function handleFunction(grammaticalLine) {
     const createFunctionRegex = /^create\s+function\s+(\w+)$/i;
-
     const match = grammaticalLine.match(createFunctionRegex);
+
+    //create function with parameter
+    const functionRegex=/^function\s+(\w+)\s+parameter\s+(\d+)$/i;
+    const match1 = grammaticalLine.match(functionRegex);
+   
 
     if (match) {
         const functionName = match[1];
         return `function ${functionName}() {\n  // Your function body here\n}\n`;
-    } else {
+    }else if(match1){
+        const functionName1 = match1[1];
+        const parameterCount = parseInt(match1[2]);
+
+        const parameters = Array.from({ length: parameterCount }, (_, index) => String.fromCharCode(97 + index)); 
+        const parametersList = parameters.join(',');
+
+        return `function ${functionName1}(${parametersList}) {\n  // Your function body here\n}`;
+    }
+     else {
         return false;
     }
 }
@@ -124,7 +137,7 @@ function handleVariableDeclaration(grammaticalLine) {
     const varMatch = grammaticalLine.match(varRegex); 
 
     //with initial value
-    const letRegex1=/^late\s+(\w+)\s*=\s*(\S+)$/i;
+    const letRegex1=/^late\s+(\w+)\s+equal\s+(\S+)$/i;
     const constRegex1=/^constant\s+(\w+)\s+equal\s+(\S+)$/i;
     const varRegex1= /^variable\s+(\w+)\s+equal\s+(\S+)$/i;
     const letMatch1=grammaticalLine.match(letRegex1);
